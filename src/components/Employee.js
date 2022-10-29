@@ -1,11 +1,11 @@
-import React from 'react'
-
-function Employee() {
+function Employee(props) {
   return (
     <div>
-      <h3>Here is an Employee</h3>
+      <h3>Employee: {props.name}</h3>
+      {/* <p>{props.role ? props.role : "No Role"}</p> */}
+      {props.role ? <p>{props.role}</p> : <p>No Role</p>}
     </div>
-  )
+  );
 }
 
-export default Employee
+export default Employee;
