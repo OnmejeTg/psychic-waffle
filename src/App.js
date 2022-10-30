@@ -1,14 +1,23 @@
 import "./index.css";
 import Employee from "./components/Employee";
-import { useState } from "react";
 
 function App() {
-  const[role, setRole] = useState('Dev')
+
   return (
-    <div className="bg-green-300">
-    <input type="text" onChange={(e)=>{setRole(e.target.value)}} />
-      <Employee name="Joe" role="Intern" />
-      <Employee name="Peter" role={role}/>
+    <div className="">
+      
+      <div className="flex flex-wrap justify-center">
+        <Employee name="Joe" role="Intern" img="https://images.pexels.com/photos/3831645/pexels-photo-3831645.jpeg"/>
+        <Employee name="Alice" role="Dev" img="https://images.pexels.com/photos/3831645/pexels-photo-3831645.jpeg"/>
+        <Employee name="Tonia" role="HR" img="https://images.pexels.com/photos/3831645/pexels-photo-3831645.jpeg"/>
+        <Employee name="Fred" role="Manager" img="https://images.pexels.com/photos/3831645/pexels-photo-3831645.jpeg"/>
+        <Employee name="George" role="Dev" img="https://images.pexels.com/photos/3831645/pexels-photo-3831645.jpeg"/>
+        <Employee name="Victor" role="Intern" img="https://images.pexels.com/photos/3831645/pexels-photo-3831645.jpeg"/>
+        <Employee name="Prince" role="Intern" img="https://images.pexels.com/photos/3831645/pexels-photo-3831645.jpeg"/>
+        <Employee name="Sam" role="Admin" img="https://images.pexels.com/photos/3831645/pexels-photo-3831645.jpeg"/>
+        
+        
+      </div>
     </div>
   );
 }
