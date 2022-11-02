@@ -2,7 +2,8 @@ import "./index.css";
 import Employee from "./components/Employee";
 import { useState } from "react";
 import AddEmployee from "./components/AddEmployee";
-import {v4 as uuidv4} from 'uuid';
+import EditEmployee from "./components/EditEmployee";
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const [employees, setEmployees] = useState([
@@ -54,21 +55,28 @@ function App() {
     setEmployees(unpdatedEmployee);
   }
 
-  function newEmployee(name, role, img){
-
-   const newEmployee = {
+  function newEmployee(name, role, img) {
+    const newEmployee = {
       id: uuidv4(),
       name: name,
       role: role,
-      img: img
-    }
-    setEmployees([...employees, newEmployee])
+      img: img,
+    };
+    setEmployees([...employees, newEmployee]);
   }
 
   return (
     <div className="">
       <div className="flex flex-wrap justify-center">
         {employees.map((employee) => {
+          const editEmployee = (
+            <EditEmployee
+              id={employee.id}
+              name={employee.name}
+              role={employee.role}
+              updateEmployee={updateEmployee}
+            />
+          );
           return (
             <Employee
               key={employee.id}
@@ -76,12 +84,12 @@ function App() {
               name={employee.name}
               role={employee.role}
               img={employee.img}
-              updateEmployee={updateEmployee}
+              editEmployee={editEmployee}
             />
           );
         })}
       </div>
-      <AddEmployee newEmployee={newEmployee}/>
+      <AddEmployee newEmployee={newEmployee} />
     </div>
   );
 }
