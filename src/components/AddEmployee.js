@@ -36,7 +36,7 @@ function AddEmployee(props) {
               setName('')
               setRole('')
               setImg('')
-              props.newEmployee(props.id, name, role, img);
+              props.newEmployee(name, role, img);
             }}
             id="editmodal"
             className="w-full max-w-sm"
