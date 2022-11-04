@@ -10,13 +10,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
-    <Header>
-      <BrowserRouter>
+    <BrowserRouter>
+      <Header>
         <Routes>
-          <Route path="/e" element={<Employees />} />
+          <Route path="/employee" element={<Employees />} />
         </Routes>
-      </BrowserRouter>
-    </Header>
+      </Header>
+    </BrowserRouter>
   );
 }
 
