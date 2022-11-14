@@ -13,7 +13,7 @@ const Definition = () => {
   useEffect(() => {
     fetch("https://api.dictionaryapi.dev/api/v2/entries/en/" + search)
       .then((response) => {
-        console.log(response.status);
+        
         if (response.status === 404) {
           setNotFound(true);
         }
