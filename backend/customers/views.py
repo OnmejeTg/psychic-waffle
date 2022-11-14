@@ -1,6 +1,6 @@
 from .serializers import CustomerSerializer
 from customers.models import Customers
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 
 def customers(request):
     data = Customers.objects.all()
@@ -8,7 +8,10 @@ def customers(request):
     return JsonResponse({'customers':serializer.data})
 
 def customer(request, id):
-    data = Customers.objects.get(pk=id)
+    try:
+        data = Customers.objects.get(pk=id)
+    except Customers.DoesNotExist:
+        raise Http404
     serializer = CustomerSerializer(data)
     return JsonResponse({'customer':serializer.data})
 
