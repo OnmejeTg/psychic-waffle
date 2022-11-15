@@ -6,6 +6,8 @@ const Customer = () => {
   const { id } = useParams();
   const [customer, setCustomer] = useState();
   const [notFound, setNotFound] = useState();
+
+  
   useEffect(() => {
     const url = baseUrl + "api/customer/" + id;
     fetch(url)
