@@ -15,15 +15,17 @@ const Customers = () => {
   return (
     <div>
       <h2>Hera are our customers</h2>
+      <ul>
       {customers
         ? customers.map((customer) => {
             return (
-              <p>
+              <li key={customer.id}>
                 <Link to={"/customers/" + customer.id}>{customer.name}</Link>
-              </p>
+              </li>
             );
           })
         : null}
+        </ul>
     </div>
   );
 };
