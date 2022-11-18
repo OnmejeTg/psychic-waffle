@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import AddCustomer from "../components/AddCustomers";
 import { baseUrl } from "../shared";
 
 const Customers = () => {
@@ -12,6 +13,26 @@ const Customers = () => {
         setCustomers(data.customers);
       });
   }, []);
+  function newCustomer(name, industry){
+    const data ={name:name, industry:industry}
+    const url = baseUrl+'api/customers'
+    fetch(url, {
+      method:'POST',
+      headers:{
+        'Content-type':'application/json'
+      },
+      body:JSON.stringify(data)
+    }).then((response)=>{
+      if(!response.ok){
+        throw new Error('Something went wrong')
+      }
+      return response.json()
+    }).then((data)=>{
+      // do something
+    }).catch((e)=>{
+      console.log(e)
+    })
+  }
   return (
     <div>
       <h2>Hera are our customers</h2>
@@ -26,6 +47,7 @@ const Customers = () => {
           })
         : null}
         </ul>
+        <AddCustomer newCustomer={newCustomer}/>
     </div>
   );
 };
