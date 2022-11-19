@@ -5,6 +5,11 @@ import { baseUrl } from "../shared";
 
 const Customers = () => {
   const [customers, setCustomers] = useState();
+  const [show, setShow] = useState(false);
+
+  function toggleShow(){
+    setShow(!show)
+  }
   useEffect(() => {
     const url = baseUrl + "api/customers";
     fetch(url)
@@ -28,7 +33,9 @@ const Customers = () => {
       }
       return response.json()
     }).then((data)=>{
-      // do something
+      toggleShow()
+      console.log(data)
+      // setCustomers([...customers, data.customer])
     }).catch((e)=>{
       console.log(e)
     })
@@ -47,7 +54,7 @@ const Customers = () => {
           })
         : null}
         </ul>
-        <AddCustomer newCustomer={newCustomer}/>
+        <AddCustomer newCustomer={newCustomer} show={show} toggleShow={toggleShow}/>
     </div>
   );
 };
