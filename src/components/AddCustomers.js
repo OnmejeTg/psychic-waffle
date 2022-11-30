@@ -69,8 +69,8 @@ export default function AddCustomer(props) {
         </Modal.Body>
         <Modal.Footer>
           <button
-            onClick={props.toggleShow}
             className="px-4 py-1 bg-slate-600 text-sm text-white font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-slate-700 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-slate-700 focus:ring-offset-2"
+            onClick={props.toggleShow}
           >
             Close
           </button>

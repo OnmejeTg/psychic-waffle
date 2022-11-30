@@ -7,8 +7,8 @@ const Customers = () => {
   const [customers, setCustomers] = useState();
   const [show, setShow] = useState(false);
 
-  function toggleShow(){
-    setShow(!show)
+  function toggleShow() {
+    setShow(!show);
   }
   useEffect(() => {
     const url = baseUrl + "api/customers";
@@ -18,43 +18,50 @@ const Customers = () => {
         setCustomers(data.customers);
       });
   }, []);
-  function newCustomer(name, industry){
-    const data ={name:name, industry:industry}
-    const url = baseUrl+'api/customers'
+  function newCustomer(name, industry) {
+    const data = { name: name, industry: industry };
+    const url = baseUrl + "api/customers";
     fetch(url, {
-      method:'POST',
-      headers:{
-        'Content-type':'application/json'
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
       },
-      body:JSON.stringify(data)
-    }).then((response)=>{
-      if(!response.ok){
-        throw new Error('Something went wrong')
-      }
-      return response.json()
-    }).then((data)=>{
-      toggleShow()
-      console.log(data)
-      // setCustomers([...customers, data.customer])
-    }).catch((e)=>{
-      console.log(e)
+      body: JSON.stringify(data),
     })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Something went wrong");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        toggleShow();
+        console.log(data);
+        setCustomers([...customers, data.customer]);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
   return (
     <div>
       <h2>Hera are our customers</h2>
       <ul>
-      {customers
-        ? customers.map((customer) => {
-            return (
-              <li key={customer.id}>
-                <Link to={"/customers/" + customer.id}>{customer.name}</Link>
-              </li>
-            );
-          })
-        : null}
-        </ul>
-        <AddCustomer newCustomer={newCustomer} show={show} toggleShow={toggleShow}/>
+        {customers
+          ? customers.map((customer) => {
+              return (
+                <li key={customer.id}>
+                  <Link to={"/customers/" + customer.id}>{customer.name}</Link>
+                </li>
+              );
+            })
+          : null}
+      </ul>
+      <AddCustomer
+        newCustomer={newCustomer}
+        show={show}
+        toggleShow={toggleShow}
+      />
     </div>
   );
 };
