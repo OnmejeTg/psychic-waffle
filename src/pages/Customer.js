@@ -5,13 +5,22 @@ import { baseUrl } from "../shared";
 const Customer = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+
   const [customer, setCustomer] = useState();
   const [tempCustomer, setTempCustomer] = useState();
   const [notFound, setNotFound] = useState();
   const [changed, setchanged] = useState(false);
+  const [error, setError] = useState();
 
   useEffect(() => {
-    // console.log(changed);
+    if (!customer) return;
+    if (!customer) return;
+
+    let equal = true;
+    if (customer.name != tempCustomer.name) equal = false;
+    if (customer.industry != tempCustomer.industry) equal = false;
+
+    if (equal) setchanged(false);
   });
 
   useEffect(() => {
@@ -21,11 +30,18 @@ const Customer = () => {
         if (response.status === 404) {
           setNotFound(true);
         }
+        if (!response.ok) {
+          throw new Error("Something went wrong, try again later");
+        }
         return response.json();
       })
       .then((data) => {
         setCustomer(data.customer);
         setTempCustomer(data.customer);
+        setError(undefined);
+      })
+      .catch((e) => {
+        setError(e.message);
       });
   }, []);
 
@@ -39,13 +55,17 @@ const Customer = () => {
       body: JSON.stringify(tempCustomer),
     })
       .then((response) => {
-        return response.json;
+        if (!response.ok) throw new Error("Something went wrong");
+        return response.json();
       })
       .then((data) => {
-        setchanged(false)
-        console.log(data);
+        setCustomer(data.customer);
+        setchanged(false);
+        setError(undefined);
       })
-      .catch();
+      .catch((e) => {
+        setError(e.message);
+      });
   }
 
   return (
@@ -75,6 +95,7 @@ const Customer = () => {
           {changed ? (
             <>
               <button
+                className="m-2"
                 onClick={() => {
                   setTempCustomer({ ...customer });
                   setchanged(false);
@@ -82,34 +103,39 @@ const Customer = () => {
               >
                 Cancel
               </button>{" "}
-              <button onClick={updateCustomer}>Save</button>
+              <button className="m-2" onClick={updateCustomer}>
+                Save
+              </button>
             </>
           ) : null}
+
+          <button
+            onClick={(e) => {
+              const url = baseUrl + "api/customer/" + id;
+              fetch(url, {
+                method: "DELETE",
+                headers: {
+                  "Content-type": "application/json",
+                },
+              })
+                .then((response) => {
+                  if (!response.ok) {
+                    throw new Error("Something went wrong");
+                  }
+                  setError(undefined);
+                  navigate("/customers");
+                })
+                .catch((e) => {
+                  setError(e.message);
+                });
+            }}
+          >
+            Delete
+          </button>
         </div>
       ) : null}
-      <button
-        onClick={(e) => {
-          const url = baseUrl + "api/customer/" + id;
-          fetch(url, {
-            method: "DELETE",
-            headers: {
-              "Content-type": "application/json",
-            },
-          })
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error("Something went wrong");
-              }
-              navigate("/customers");
-            })
-            .catch((e) => {
-              console.log(e);
-            });
-        }}
-      >
-        Delete
-      </button>
-      <br></br>
+      {error ? <p>{error}</p> : null}
+      <br />
       <Link to="/customers">Go back</Link>
     </div>
   );
