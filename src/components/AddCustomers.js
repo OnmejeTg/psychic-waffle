@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
 export default function AddCustomer(props) {
-  const [name, setName] = useState('');
-  const [industry, setIndustry] = useState('');
- 
+  const [name, setName] = useState("");
+  const [industry, setIndustry] = useState("");
+
   const [show, setShow] = useState(props.show);
 
   const handleClose = () => setShow(false);
@@ -14,9 +14,9 @@ export default function AddCustomer(props) {
     <>
       <button
         onClick={props.toggleShow}
-        className="m-2 block mx-auto px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
+        className=" no-underline px-4 py-1 bg-purple-400 text-sm text-white font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-700 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
       >
-       Add Customer
+        Add Customer
       </button>
 
       <Modal
@@ -32,8 +32,8 @@ export default function AddCustomer(props) {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              setName('')
-              setIndustry('')
+              setName("");
+              setIndustry("");
               props.newCustomer(name, industry);
             }}
             id="editmodal"
@@ -77,7 +77,7 @@ export default function AddCustomer(props) {
           <button
             form="editmodal"
             className="px-4 py-1 bg-purple-600 text-sm text-white font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-700 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
-           >
+          >
             Add
           </button>
         </Modal.Footer>
@@ -85,4 +85,3 @@ export default function AddCustomer(props) {
     </>
   );
 }
-

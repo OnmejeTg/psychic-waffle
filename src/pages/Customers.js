@@ -45,7 +45,7 @@ const Customers = () => {
   }
   return (
     <div>
-      <h2>Hera are our customers</h2>
+      <h2>Here are our customers</h2>
       <ul>
         {customers
           ? customers.map((customer) => {
