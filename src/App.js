@@ -8,6 +8,8 @@ import Definition from "./pages/Definition";
 import NotFound from "./components/NotFound";
 import Customer from "./pages/Customer";
 import Contact from "./components/Contact";
+import ContactList from "./components/ContactList";
+
 
 function App() {
   return (
@@ -17,6 +19,7 @@ function App() {
           <Route path="/employees" element={<Employees />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/contacts" element={<ContactList />} />
           <Route path="/customers/:id" element={<Customer/>} />
           <Route path="/dictionary" element={<Dictionary/>} />
           <Route path="/404" element={<NotFound/>} />
