@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import AddCustomer from "../components/AddCustomers";
 import { baseUrl } from "../shared";
 
@@ -7,24 +7,42 @@ const Customers = () => {
   const [customers, setCustomers] = useState();
   const [show, setShow] = useState(false);
 
+  const location = useLocation();
+  const navigate = useNavigate();
   function toggleShow() {
     setShow(!show);
   }
   useEffect(() => {
     const url = baseUrl + "api/customers";
-    fetch(url)
-      .then((response) => response.json())
+    fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("access"),
+      },
+    })
+      .then((response) => {
+        if (response.status === 401) {
+          navigate("/login", {
+            state: {
+              previousUrl: location.pathname,
+            },
+          });
+        }
+        return response.json();
+      })
       .then((data) => {
         setCustomers(data.customers);
       });
   }, []);
+
   function newCustomer(name, industry) {
     const data = { name: name, industry: industry };
     const url = baseUrl + "api/customers";
     fetch(url, {
       method: "POST",
       headers: {
-        "Content-type": "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("access"),
       },
       body: JSON.stringify(data),
     })
@@ -51,7 +69,7 @@ const Customers = () => {
           ? customers.map((customer) => {
               return (
                 <li key={customer.id}>
-                  <Link to={"/customers/" + customer.id}>{customer.name}</Link>
+                  <Link to={"/customer/" + customer.id}>{customer.name}</Link>
                 </li>
               );
             })
