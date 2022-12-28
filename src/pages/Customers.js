@@ -15,7 +15,7 @@ const Customers = () => {
   const navigate = useNavigate();
 
   const url = baseUrl + "api/customers";
-  const { data : {customers} = {}, errorStatus } = useFetch(url, {
+  const { data: { customers } = {}, errorStatus } = useFetch(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -87,7 +87,7 @@ const Customers = () => {
       <h2>Here are our customers</h2>
       <ul>
         {customers
-          ?customers.map((customer) => {
+          ? customers.map((customer) => {
               return (
                 <li key={customer.id}>
                   <Link to={"/customer/" + customer.id}>{customer.name}</Link>
