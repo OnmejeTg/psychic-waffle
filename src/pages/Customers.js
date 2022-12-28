@@ -3,46 +3,60 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import AddCustomer from "../components/AddCustomers";
 import { baseUrl } from "../shared";
 import { LoginContext } from "../App";
+import useFetch from "../hooks/UseFetch";
 
 const Customers = () => {
-  const [loggedIn, setLoggedIn] = useContext(LoginContext)
+  const [loggedIn, setLoggedIn] = useContext(LoginContext);
 
-  const [customers, setCustomers] = useState();
+  // const [customers, setCustomers] = useState();
   const [show, setShow] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
+
+  const url = baseUrl + "api/customers";
+  const { data : {customers} = {}, errorStatus } = useFetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("access"),
+    },
+  });
+
+  useEffect(() => {
+    console.log(customers, errorStatus);
+  });
   function toggleShow() {
     setShow(!show);
   }
-  useEffect(() => {
-    const url = baseUrl + "api/customers";
-    fetch(url, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("access"),
-      },
-    })
-      .then((response) => {
-        
-        if (response.status === 401) {
-          setLoggedIn(false)
-          navigate("/login", {
-            state: {
-              previousUrl: location.pathname,
-            },
-          });
-        }
-        
-        return response.json();
-      })
-      .then((data) => {
-        setCustomers(data.customers);
-      });
-  }, []);
+  // useEffect(() => {
+  //   const url = baseUrl + "api/customers";
+  //   fetch(url, {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + localStorage.getItem("access"),
+  //     },
+  //   })
+  //     .then((response) => {
+
+  //       if (response.status === 401) {
+  //         setLoggedIn(false)
+  //         navigate("/login", {
+  //           state: {
+  //             previousUrl: location.pathname,
+  //           },
+  //         });
+  //       }
+
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       setCustomers(data.customers);
+  //     });
+  // }, []);
 
   function newCustomer(name, industry) {
-    const data = { name: name, industry: industry };
+    /* const data = { name: name, industry: industry };
     const url = baseUrl + "api/customers";
     fetch(url, {
       method: "POST",
@@ -66,13 +80,14 @@ const Customers = () => {
       .catch((e) => {
         console.log(e);
       });
+      */
   }
   return (
     <div>
       <h2>Here are our customers</h2>
       <ul>
         {customers
-          ? customers.map((customer) => {
+          ?customers.map((customer) => {
               return (
                 <li key={customer.id}>
                   <Link to={"/customer/" + customer.id}>{customer.name}</Link>
